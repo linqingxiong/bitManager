@@ -1,6 +1,6 @@
 package com.xiong.bitmanager.service.feign;
 
-import com.xiong.bitmanager.BitResult;
+import com.xiong.bitmanager.common.BitResult;
 import com.xiong.bitmanager.pojo.dto.req.*;
 import com.xiong.bitmanager.pojo.dto.res.*;
 import org.springframework.cloud.openfeign.FeignClient;

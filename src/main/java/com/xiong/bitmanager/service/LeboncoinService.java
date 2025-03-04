@@ -1,31 +1,24 @@
-package com.xiong.bitmanager;
+package com.xiong.bitmanager.service;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.xiong.bitmanager.common.BitResult;
-import com.xiong.bitmanager.pojo.dto.req.CloseBrowserReqDto;
-import com.xiong.bitmanager.pojo.dto.req.GetBrowserListReqDto;
-import com.xiong.bitmanager.pojo.dto.req.GetPidReqDto;
-import com.xiong.bitmanager.pojo.dto.req.OpenBrowserReqDto;
-import com.xiong.bitmanager.pojo.dto.res.GetBrowserListResultDto;
-import com.xiong.bitmanager.pojo.dto.res.GetPidResultDto;
-import com.xiong.bitmanager.pojo.dto.res.OpenBrowserResultDto;
+import com.xiong.bitmanager.pojo.dto.req.*;
+import com.xiong.bitmanager.pojo.dto.res.*;
+import com.xiong.bitmanager.pojo.po.LbPic;
+import com.xiong.bitmanager.pojo.po.LbProduct;
 import com.xiong.bitmanager.service.feign.BitService;
-import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.time.Duration;
@@ -33,30 +26,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-@SpringBootTest
+@Service
 @Slf4j
-class LeboncoinTests {
-    @Resource
+public class LeboncoinService {
+
+    @Autowired
     private BitService bitService;
 
 
-    @Test
-    void contextLoads() {
-        String name = "自动化测试2";
-        String title = "Nike Baskets Chaussures sport'07 White 37.5";
-        String key = "Chaussures neuves jamais portées\n" +
-                "Taille 37.5\n" +
-                "envoie rapide sous 24h\n" +
-                "Emballage précis,avec boîte à chaussures";
-        List<String> imgPaths = new ArrayList<>();
-        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\1.png");
-        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\2.png");
-        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\3.png");
-        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\4.png");
-        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\5.png");
+    public void executeContextLoads(LbProduct lbProduct) {
+//        String name = "自动化测试2";
+//        String title = "Nike Baskets Chaussures sport'07 White 37.5";
+//        String key = "Chaussures neuves jamais portées\n" +
+//                "Taille 37.5\n" +
+//                "envoie rapide sous 24h\n" +
+//                "Emballage précis,avec boîte à chaussures";
+//        List<String> imgPaths = new ArrayList<>();
+//        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\1.png");
+//        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\2.png");
+//        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\3.png");
+//        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\4.png");
+//        imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\5.png");
 
-        BitResult<GetBrowserListResultDto> getBrowserListResultDtoBitResult = bitService.getBrowserDetail(new GetBrowserListReqDto(0, 10, name));
+        String name = lbProduct.getName();
+        String title = lbProduct.getTitle();
+        String key = lbProduct.getKey();
+        List<String> imgPaths = lbProduct.getPics().stream().map(LbPic::getImgUrl).collect(Collectors.toList());
+
+                BitResult<GetBrowserListResultDto> getBrowserListResultDtoBitResult = bitService.getBrowserDetail(new GetBrowserListReqDto(0, 10, name));
         log.info("getBrowserListResultDtoBitResult:{}", JSONUtil.toJsonStr(getBrowserListResultDtoBitResult));
         if (!getBrowserListResultDtoBitResult.getData().getList().isEmpty()) {
             GetBrowserListResultDto.BrowerInfo browerInfo = getBrowserListResultDtoBitResult.getData().getList().get(0);
@@ -218,7 +217,6 @@ class LeboncoinTests {
 
         }
     }
-
     private void clickContinue(WebDriver driver) {
         sleep(1);
         WebElement form = untilFind(driver, By.tagName("form"), 60);
@@ -297,34 +295,4 @@ class LeboncoinTests {
             return new ArrayList<>();
         }
     }
-
-    private void retry(DhgateTests.Dosth retryJob) {
-        retry(retryJob, 500, 3);
-    }
-
-    private void retry(DhgateTests.Dosth retryJob, int milliseconds, int retryCount) {
-        while (retryCount > 0) {
-            retryCount--;
-            try {
-                retryJob.doit();
-                break;
-            } catch (Exception e) {
-                if (retryCount == 0) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    TimeUnit.MILLISECONDS.sleep(milliseconds);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-                log.error("retry error:{}", e.getMessage());
-            }
-        }
-    }
-
-
-    interface Dosth {
-        void doit();
-    }
-
 }

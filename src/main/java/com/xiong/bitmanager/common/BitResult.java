@@ -1,4 +1,4 @@
-package com.xiong.bitmanager;
+package com.xiong.bitmanager.common;
 
 import lombok.Data;
 
