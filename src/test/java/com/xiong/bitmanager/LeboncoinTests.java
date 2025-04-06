@@ -3,13 +3,13 @@ package com.xiong.bitmanager;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.xiong.bitmanager.common.BitResult;
-import com.xiong.bitmanager.pojo.dto.req.CloseBrowserReqDto;
-import com.xiong.bitmanager.pojo.dto.req.GetBrowserListReqDto;
-import com.xiong.bitmanager.pojo.dto.req.GetPidReqDto;
-import com.xiong.bitmanager.pojo.dto.req.OpenBrowserReqDto;
-import com.xiong.bitmanager.pojo.dto.res.GetBrowserListResultDto;
-import com.xiong.bitmanager.pojo.dto.res.GetPidResultDto;
-import com.xiong.bitmanager.pojo.dto.res.OpenBrowserResultDto;
+import com.xiong.bitmanager.pojo.dto.bm.req.CloseBrowserReqDto;
+import com.xiong.bitmanager.pojo.dto.bm.req.GetBrowserListReqDto;
+import com.xiong.bitmanager.pojo.dto.bm.req.GetPidReqDto;
+import com.xiong.bitmanager.pojo.dto.bm.req.OpenBrowserReqDto;
+import com.xiong.bitmanager.pojo.dto.bm.res.GetBrowserListResultDto;
+import com.xiong.bitmanager.pojo.dto.bm.res.GetPidResultDto;
+import com.xiong.bitmanager.pojo.dto.bm.res.OpenBrowserResultDto;
 import com.xiong.bitmanager.service.feign.BitService;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
@@ -56,7 +56,7 @@ class LeboncoinTests {
         imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\4.png");
         imgPaths.add("D:\\Program Files\\WeChat\\WeChat Files\\lqx19941128\\FileStorage\\File\\2024-07\\7.15图\\7.15图\\3\\5.png");
 
-        BitResult<GetBrowserListResultDto> getBrowserListResultDtoBitResult = bitService.getBrowserDetail(new GetBrowserListReqDto(0, 10, name));
+        BitResult<GetBrowserListResultDto> getBrowserListResultDtoBitResult = bitService.getBrowserList(new GetBrowserListReqDto(0, 10, name));
         log.info("getBrowserListResultDtoBitResult:{}", JSONUtil.toJsonStr(getBrowserListResultDtoBitResult));
         if (!getBrowserListResultDtoBitResult.getData().getList().isEmpty()) {
             GetBrowserListResultDto.BrowerInfo browerInfo = getBrowserListResultDtoBitResult.getData().getList().get(0);

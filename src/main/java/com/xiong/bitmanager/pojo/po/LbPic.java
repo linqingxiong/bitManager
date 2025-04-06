@@ -1,10 +1,10 @@
 package com.xiong.bitmanager.pojo.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * @ClassName LbPic
@@ -24,4 +24,7 @@ public class LbPic {
 
     @TableField("product_id")
     private Long productId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 }

@@ -7,9 +7,9 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.xiong.bitmanager.common.BitResult;
-import com.xiong.bitmanager.pojo.dto.BrowserFingerPrint;
-import com.xiong.bitmanager.pojo.dto.req.*;
-import com.xiong.bitmanager.pojo.dto.res.*;
+import com.xiong.bitmanager.pojo.dto.bm.BrowserFingerPrint;
+import com.xiong.bitmanager.pojo.dto.bm.req.*;
+import com.xiong.bitmanager.pojo.dto.bm.res.*;
 import com.xiong.bitmanager.service.feign.BitService;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
@@ -66,7 +66,7 @@ class DhgateTests {
 
     @Test
     void contextLoads() {
-        BitResult<GetBrowserListResultDto> getBrowserListResultDtoBitResult = bitService.getBrowserDetail(new GetBrowserListReqDto(0, 10, "敦煌测试"));
+        BitResult<GetBrowserListResultDto> getBrowserListResultDtoBitResult = bitService.getBrowserList(new GetBrowserListReqDto(0, 10, "敦煌测试"));
         log.info("getBrowserListResultDtoBitResult:{}", JSONUtil.toJsonStr(getBrowserListResultDtoBitResult));
         if (!getBrowserListResultDtoBitResult.getData().getList().isEmpty()) {
             GetBrowserListResultDto.BrowerInfo browerInfo = getBrowserListResultDtoBitResult.getData().getList().get(0);

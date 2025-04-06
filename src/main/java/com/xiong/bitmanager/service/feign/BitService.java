@@ -1,8 +1,8 @@
 package com.xiong.bitmanager.service.feign;
 
 import com.xiong.bitmanager.common.BitResult;
-import com.xiong.bitmanager.pojo.dto.req.*;
-import com.xiong.bitmanager.pojo.dto.res.*;
+import com.xiong.bitmanager.pojo.dto.bm.req.*;
+import com.xiong.bitmanager.pojo.dto.bm.res.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -15,12 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
  **/
 @FeignClient(
         name = "bitFeignService",
-        url = "http://127.0.0.1:54345",
+        url = "${myfeign.bmbrowser}",
         configuration = {}
 )
 public interface BitService {
+
+    @PostMapping("/health")
+    BitResult health();
+
+    /* 代理检测 */
+    @PostMapping("/checkagent")
+    BitResult<CheckAgentResultDto> checkagent(CheckAgentReqDto checkAgentRequest);
+
     @PostMapping("/browser/list")
-    BitResult<GetBrowserListResultDto> getBrowserDetail(GetBrowserListReqDto getBrowserListReqDto);
+    BitResult<GetBrowserListResultDto> getBrowserList(GetBrowserListReqDto getBrowserListReqDto);
 
     @PostMapping("/browser/detail")
     BitResult<GetBrowserDetailResultDto> getBrowserDetail(GetBrowserDetailReqDto getBrowserDetailReqDto);
@@ -42,4 +50,7 @@ public interface BitService {
 
     @PostMapping("/browser/fingerprint/random")
     BitResult<FingerprintRandomResultDto> fingerprintRandom(FingerprintRandomReqDto fingerprintRandomReqDto);
+
+    @PostMapping("/browser/proxy/update")
+    BitResult<Void> updateProxy(UpdateProxyReqDto updateProxyReqDto);
 }

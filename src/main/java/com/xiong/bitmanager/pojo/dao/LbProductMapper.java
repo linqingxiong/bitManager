@@ -2,7 +2,6 @@ package com.xiong.bitmanager.pojo.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiong.bitmanager.pojo.po.LbProduct;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @ClassName LbProductMapper
@@ -11,6 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Date 2025/3/4 12:05
  * @Version 1.0
  **/
-@Mapper
 public interface LbProductMapper extends BaseMapper<LbProduct> {
 }
