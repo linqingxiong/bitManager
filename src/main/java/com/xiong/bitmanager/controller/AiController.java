@@ -67,6 +67,7 @@ public class AiController {
                 return ResponseResult.success(JSONUtil.parseObj(res.getData()).toBean(PddetailDtoRes.class));
             }
         } catch (Exception e) {
+            log.error("kw2detail",e);
             return ResponseResult.error("img2detail failed: " + e.getMessage());
         }
     }

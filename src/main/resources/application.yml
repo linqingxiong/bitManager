@@ -43,5 +43,5 @@ file:
   max-size: 5MB
 myfeign:
   bmbrowser: http://127.0.0.1:54345
-  bmserver: http://119.45.130.167:6796
-#  bmserver: http://127.0.0.1:8082
+#  bmserver: http://119.45.130.167:6796
+  bmserver: http://127.0.0.1:8082
