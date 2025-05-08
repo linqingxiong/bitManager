@@ -5,10 +5,9 @@ import com.xiong.bitmanager.common.config.BmServerAuthInterceptor;
 import com.xiong.bitmanager.pojo.dto.feign.*;
 import com.xiong.bitmanager.pojo.dto.req.ChatRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ClassName BmServerService
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  **/
 @FeignClient(
         name = "bmServerService",
-        url = "${myfeign.bmserver}/api",
-        configuration = {BmServerAuthInterceptor.class}
+        url = "${myfeign.bmserver}/bmserver-api/api",
+        configuration = {BmServerAuthInterceptor.class, CustomFeignErrorDecoder.class}
 )
 public interface BmServerService {
     @PostMapping("/auth/login")
@@ -44,5 +43,18 @@ public interface BmServerService {
     @GetMapping("/auth/validateToken/{usercode}")
     ResponseResult<Boolean> validateToken(@PathVariable String usercode);
 
+    @PostMapping("/license/bind")
+    ResponseResult<Void> bindDevice(
+            @RequestParam String licenseKey,
+            @RequestParam String deviceId,
+            @RequestParam(required = false) String deviceType);
 
+    @GetMapping("/license/{licenseKey}/devices")
+    ResponseResult<List<String>> getBoundDevices(
+            @PathVariable String licenseKey);
+
+    @DeleteMapping("/license/unbind")
+    ResponseResult<Void> unbindDevice(
+            @RequestParam String licenseKey,
+            @RequestParam String deviceId);
 }

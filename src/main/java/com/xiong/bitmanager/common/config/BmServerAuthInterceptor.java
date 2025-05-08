@@ -28,8 +28,8 @@ public class BmServerAuthInterceptor implements RequestInterceptor {
     private SettingService settingService;
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        String usercode = settingService.getUsercode();
-        requestTemplate.header("X-LICENSE-KEY", usercode);
+        String licenseKey = settingService.getLicenseKey();
+        requestTemplate.header("X-LICENSE-KEY", licenseKey);
         requestTemplate.header("X-DEVICE-ID", deviceId);
     }
 }

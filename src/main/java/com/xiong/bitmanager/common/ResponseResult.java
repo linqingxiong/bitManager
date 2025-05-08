@@ -1,11 +1,17 @@
 package com.xiong.bitmanager.common;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class ResponseResult<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int code;
+
+    @JsonAlias({"msg","message"})
+    @JsonProperty("message")
     private String message;
     private T data;
 

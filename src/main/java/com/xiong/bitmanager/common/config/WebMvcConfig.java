@@ -26,7 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 拦截所有 /api/** 的请求
         registry.addInterceptor(passValidationInterceptor)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/auth/login")
+                .excludePathPatterns("/api/auth/**")
         ;
     }
 

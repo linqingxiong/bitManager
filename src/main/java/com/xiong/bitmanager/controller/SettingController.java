@@ -25,7 +25,6 @@ public class SettingController {
         PageUtils pageUtils = new PageUtils(operationLogPage);
         return ResponseResult.success(pageUtils);
     }
-
     // 新增接口
     @GetMapping("/list")
     public ResponseResult<List<Setting>> getAllSettings() {
@@ -48,6 +47,4 @@ public class SettingController {
                 ResponseResult.success("更新成功") :
                 ResponseResult.error("更新失败");
     }
-
-
 }

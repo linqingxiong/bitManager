@@ -39,7 +39,7 @@ public class AiController {
             img2detailDto.setPrompt(buildDynamicPromptWithImg(img2detailDto.getDescKws(), img2detailDto.getTitleKws()));
             img2detailDto.setImages(img2detailDto.getImages().stream().map(img -> imageToBase64WithPrefix(new File(StrUtil.replace(img, "/files", uploadDir)))).collect(Collectors.toList()));
             ResponseResult<String> res = bmServerService.img2detail(img2detailDto);
-            if (res.getCode() != 200) {
+            if (res.getCode() != 0) {
                 return ResponseResult.error(res.getMessage());
             } else {
                 log.info("img2detail res: {}", res);
@@ -59,11 +59,10 @@ public class AiController {
             jsonObject.set("title", kw2detailDto.getTitleKws());
             jsonObject.set("desc", kw2detailDto.getDescKws());
             ResponseResult<String> res = bmServerService.generateText(new ChatRequestDto(jsonObject.toString()));
-            if (res.getCode() != 200) {
+            if (res.getCode() != 0) {
                 return ResponseResult.error(res.getMessage());
             } else {
                 log.info("Kw2detail res: {}", res.getData());
-
                 return ResponseResult.success(JSONUtil.parseObj(res.getData()).toBean(PddetailDtoRes.class));
             }
         } catch (Exception e) {

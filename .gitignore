@@ -1,9 +1,11 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+logs/
+uploads/
+src/main/resources/static/
 **/target
+bm.db
+bmserver.db
 
 ### STS ###
 .apt_generated
@@ -27,10 +29,6 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
-!/target/
-!/.gitattributes

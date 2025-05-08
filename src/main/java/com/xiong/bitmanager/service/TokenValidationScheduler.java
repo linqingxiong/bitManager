@@ -1,6 +1,9 @@
 package com.xiong.bitmanager.service;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.xiong.bitmanager.common.ResponseResult;
+import com.xiong.bitmanager.common.util.DeviceUtil;
 import com.xiong.bitmanager.service.feign.BmServerService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -54,24 +57,22 @@ public class TokenValidationScheduler {
     @Scheduled(fixedRate = 10000)
     public synchronized void validateToken() {
 
-        String usercode = settingService.getUsercode();
-        if (StrUtil.isBlank(usercode)) {
+        String licenseKey = settingService.getLicenseKey();
+        if (StrUtil.isBlank(licenseKey)) {
             setPass(false);
             return; // 无token，不验证
         }
-        Boolean isValid;
+        boolean isValid;
         try {
-            isValid = bmServerService.validateToken(usercode).getData();
+            ResponseResult<List<String>> boundDevices = bmServerService.getBoundDevices(licenseKey);
+            Assert.isTrue(boundDevices.getCode() == 0, boundDevices.getMessage());
+            Assert.isTrue(boundDevices.getData().contains(DeviceUtil.generateDeviceId()), "设备未绑定");
+            isValid = true;
         } catch (Exception e) {
             log.error("定期验证token错误", e);
             isValid = false;
         }
-        if (isValid == null) {
-            setPass(false);
-            return;
-//            applicationContext.close();
-        }
-        if (isValid == null || !isValid) {
+        if (!isValid) {
             setPass(false);
             return;
 //            settingService.deleteUsercode();

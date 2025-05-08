@@ -21,20 +21,6 @@ public class SettingService extends ServiceImpl<SettingMapper, Setting> {
                 .or().like(StrUtil.isNotBlank(key), Setting::getDescription, key));
     }
 
-    public String getUsercode() {
-        Setting usercode = getOne(new LambdaQueryWrapper<Setting>().eq(Setting::getSettingKey, "usercode"),false);
-        return usercode == null?null:usercode.getSettingValue();
-    }
-
-    public void setUsercode(String data) {
-        update(new LambdaUpdateWrapper<Setting>().eq(Setting::getSettingKey, "usercode").set(Setting::getSettingValue, data));
-    }
-
-    public void deleteUsercode() {
-        update(new LambdaUpdateWrapper<Setting>().eq(Setting::getSettingKey, "usercode").set(Setting::getSettingValue, ""));
-
-    }
-
     public void setLocalProductGallery(String data) {
         update(new LambdaUpdateWrapper<Setting>().eq(Setting::getSettingKey, "local_product_gallery").set(Setting::getSettingValue, data));
     }
@@ -42,5 +28,14 @@ public class SettingService extends ServiceImpl<SettingMapper, Setting> {
     public String getLocalProductGallery() {
         Setting localProductGallery = getOne(new LambdaQueryWrapper<Setting>().eq(Setting::getSettingKey, "local_product_gallery"));
         return localProductGallery == null?"":localProductGallery.getSettingValue();
+    }
+
+    public void setLicenseKey(String licenseKey) {
+        update(new LambdaUpdateWrapper<Setting>().eq(Setting::getSettingKey, "license").set(Setting::getSettingValue, licenseKey));
+    }
+
+    public String getLicenseKey() {
+        Setting license = getOne(new LambdaQueryWrapper<Setting>().eq(Setting::getSettingKey, "license"));
+        return license == null?"":license.getSettingValue();
     }
 }
